@@ -1,0 +1,30 @@
+{
+    "name": "wicool/larabel-bimer-api",
+    "description": "A Laravel Wrapper to Alterdata Bimer API",
+    "type": "package",
+    "license": "MIT",
+    "version": "1.0",
+    "keywords": ["laravel", "module"],
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "authors": [
+        {
+            "name": "flavianohonorato",
+            "email": "flaviano.honorato@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Wicool\\BimerApi\\": "src/"
+        }
+    },
+    "minimum-stability" : "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Wicool\\BimerApi\\Providers\\BimerApiServiceProvider"
+            ]
+        }
+    }
+}
