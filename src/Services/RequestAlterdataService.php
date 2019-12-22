@@ -29,7 +29,7 @@ abstract class RequestAlterdataService
     public static function create($endpoint, $data)
     {
         try {
-            return app()->make('ApiClientAlterdata')->get($endpoint, $data);
+            return app()->make('ApiClientAlterdata')->send($endpoint, $data);
         } catch (\Exception $e) {
             return false;
         }
@@ -40,20 +40,15 @@ abstract class RequestAlterdataService
      *
      * @param $endpoint
      * @param $data
-     * @param $model
-     * @param $id_alterdata
+     * @param $params
+     * @param $type
      * @return bool|mixed
      */
-    public static function update($endpoint, $data, $model, $id_alterdata)
+    public static function update($endpoint, $data, $params, $type = 'put')
     {
         try {
-            $findModel = $model::query()
-                ->where('id', '=', $data->id)
-                ->first();
-
-            if (isset($findModel)) {
-                return app()->make('ApiClientAlterdata')->get($endpoint, $id_alterdata);
-            }
+            return app()->make('ApiClientAlterdata')
+                ->send($endpoint, $data, $params, $type);
         } catch (\Exception $e) {
             return false;
         }
