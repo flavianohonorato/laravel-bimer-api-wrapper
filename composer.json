@@ -1,16 +1,17 @@
 {
-    "name": "wicool/larabel-bimer-api",
+    "name": "wicool/laravel-bimer-api",
     "description": "A Laravel Wrapper to Alterdata Bimer API",
     "type": "package",
     "license": "MIT",
     "version": "1.0",
     "keywords": ["laravel", "module"],
     "require": {
-        "php": ">=7.2.0"
+        "php": ">=7.2.0",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "authors": [
         {
-            "name": "flavianohonorato",
+            "name": "Flaviano Honorato",
             "email": "flaviano.honorato@gmail.com"
         }
     ],
