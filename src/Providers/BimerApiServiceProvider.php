@@ -16,7 +16,7 @@ class BimerApiServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/config/bimer-api.php' => config_path('bimer-api.php'),
-        ]);
+        ], 'config');
     }
 
     /**
