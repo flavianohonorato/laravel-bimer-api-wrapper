@@ -37,7 +37,7 @@ class ApiClientAlterdata
             $url = self::getEnvirolment() . 'oauth/token';
 
             $response = $this->client->request('POST', $url, [
-                'form_params' => config('bimer-api');
+                'form_params' => config('bimer-api.login_params')
             ]);
 
             $result = $response->getBody();
@@ -59,11 +59,13 @@ class ApiClientAlterdata
      */
     public function get($endpoint, $params = null)
     {
-        if ($endpoint !== 'oauth/token')
-            $endpoint = 'api/' .  $endpoint;
+        if ($endpoint !== 'oauth/token') {
+            $endpoint = 'api/'.$endpoint;
+        }
 
-        if (is_null($this->token))
+        if (is_null($this->token)) {
             $this->prepare_access_token();
+        }
 
         $headers = [
             'Authorization' => 'Bearer ' . $this->token,
@@ -77,7 +79,7 @@ class ApiClientAlterdata
         if (is_array($params)) {
             $array_params = $params;
         } else {
-            $endpoint = $endpoint . '/' . $params;
+            $endpoint .= '/'.$params;
         }
 
         $request = $client->get($endpoint,[
@@ -87,30 +89,28 @@ class ApiClientAlterdata
 
         $response = $request->getBody();
 
-        if (isset($response)) {
-            return $response;
-        }
-
-        return false;
+        return $response ?? false;
     }
 
     /**
-     * @param $endpoint
+     * @param string $endpoint
      * @param null $data
      * @param null $params
-     * @param string $tipo
+     * @param string $type
      * @return array|mixed|null
      * @throws GuzzleException
      */
-    public function send($endpoint, $data = null, $params = null, $tipo = 'post')
+    public function send(string $endpoint, $data = null, $params = null, $type = 'post')
     {
-        $tipo = strtolower($tipo);
+        $type = strtolower($type);
 
-        if ($endpoint !== 'oauth/token')
-            $endpoint = 'api/' .  $endpoint;
+        if ($endpoint !== 'oauth/token') {
+            $endpoint = 'api/'.$endpoint;
+        }
 
-        if (is_null($this->token))
+        if (is_null($this->token)) {
             $this->prepare_access_token();
+        }
 
         $headers = [
             'Authorization' => 'Bearer ' . $this->token,
@@ -121,7 +121,7 @@ class ApiClientAlterdata
             'base_uri' => self::getEnvirolment(),
         ]);
 
-        switch ($tipo) {
+        switch ($type) {
             case 'put':
                 $request = $client->put($endpoint,[
                     'query'         =>  $params,
@@ -150,15 +150,11 @@ class ApiClientAlterdata
 
         $response = $request->getBody();
 
-        if (isset($response)) {
-            return $response;
-        }
-
-        return null;
+        return $response ?? null;
     }
 
     /**
-     * Get Envirolmsnt
+     * Get Envirolment
      *
      * @param null $value
      * @return mixed
@@ -166,14 +162,15 @@ class ApiClientAlterdata
     protected static function getEnvirolment($value = null)
     {
         if (is_null($value)) {
-            if (config('app.env') == 'production')
-                return config('bimer.api_url_production');
-            return config('bimer.api_url_sandbox');
+            if (config('app.env') == 'production') {
+                return config('bimer-api.api_url_production');
+            }
+            return config('bimer-api.api_url_sandbox');
         }
-        if ($value == 'production') {
-            return config('bimer.api_url_production');
+        if ($value === 'production') {
+            return config('bimer-api.api_url_production');
         }
-        return config('bimer.api_url_sandbox');
+        return config('bimer-api.api_url_sandbox');
     }
 
     /**
